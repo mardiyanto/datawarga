@@ -17,7 +17,9 @@
     include 'koneksi.php';
 
     // Periksa jika ada pesan kesalahan duplikasi NIK
-    if (isset($_GET['error']) && $_GET['error'] == 'duplicate') {
+    $duplicate_nik = '';
+    if (isset($_GET['error']) && $_GET['error'] == 'duplicate' && isset($_GET['nik'])) {
+        $duplicate_nik = htmlspecialchars($_GET['nik']);
         echo "<div class='alert alert-danger'>NIK yang Anda masukkan sudah ada di database. <button class='btn btn-link' data-toggle='modal' data-target='#duplicateModal'>lihat detail nik</button></div>";
     }
 
@@ -136,56 +138,56 @@
 
     <!-- Modal untuk Menampilkan Detail NIK Duplikat -->
     <div class="modal fade" id="duplicateModal" tabindex="-1" role="dialog" aria-labelledby="duplicateModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="duplicateModalLabel">Detail NIK Duplikat</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h6>NIK: <?php echo htmlspecialchars($duplicate_nik); ?></h6>
-                    <p>Berikut adalah data yang menggunakan NIK ini:</p>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>NIK</th>
-                                <th>Nama</th>
-                                <th>Alamat</th>
-                                <th>Desa</th>
-                                <th>Kecamatan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if ($duplicate_nik) {
-                                $query = "SELECT * FROM data_warga WHERE nik = ?";
-                                $stmt = mysqli_prepare($conn, $query);
-                                mysqli_stmt_bind_param($stmt, "s", $duplicate_nik);
-                                mysqli_stmt_execute($stmt);
-                                $result = mysqli_stmt_get_result($stmt);
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>
-                                        <td>{$row['nik']}</td>
-                                        <td>{$row['nama']}</td>
-                                        <td>{$row['alamat']}</td>
-                                        <td>{$row['desa']}</td>
-                                        <td>{$row['kecamatan']}</td>
-                                    </tr>";
-                                }
-                                mysqli_stmt_close($stmt);
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="duplicateModalLabel">Detail NIK Duplikat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>NIK: <?php echo $duplicate_nik; ?></h6>
+                <p>Berikut adalah data yang menggunakan NIK ini:</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>NIK</th>
+                            <th>Nama</th>
+                            <th>Alamat</th>
+                            <th>Desa</th>
+                            <th>Kecamatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($duplicate_nik) {
+                            $query = "SELECT * FROM data_warga WHERE nik = ?";
+                            $stmt = mysqli_prepare($conn, $query);
+                            mysqli_stmt_bind_param($stmt, "s", $duplicate_nik);
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>
+                                    <td>{$row['nik']}</td>
+                                    <td>{$row['nama']}</td>
+                                    <td>{$row['alamat']}</td>
+                                    <td>{$row['desa']}</td>
+                                    <td>{$row['kecamatan']}</td>
+                                </tr>";
                             }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                </div>
+                            mysqli_stmt_close($stmt);
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Tombol untuk memunculkan Modal Input -->
     <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#inputModal">

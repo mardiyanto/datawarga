@@ -21,9 +21,9 @@ if ($action == 'insert') {
     $count = mysqli_stmt_num_rows($stmt_check);
     mysqli_stmt_close($stmt_check);
 
-    // Jika NIK sudah ada, kirimkan pesan kesalahan kembali ke index.php
+    // Jika NIK sudah ada, kirimkan pesan kesalahan dan NIK kembali ke index.php
     if ($count > 0) {
-        header("Location: index.php?error=duplicate");
+        header("Location: index.php?error=duplicate&nik=" . urlencode($nik));
         exit();
     }
 
