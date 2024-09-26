@@ -8,8 +8,8 @@ $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ?
 if ($action == 'insert') {
     $nik = mysqli_real_escape_string($conn, $_POST['nik']);
     $nama = mysqli_real_escape_string($conn, $_POST['nama']);
-    $no_hp = mysqli_real_escape_string($conn, $_POST['no_hp']); // Menambahkan no_hp
-    $keterangan = mysqli_real_escape_string($conn, $_POST['keterangan']); // Mengganti alamat dengan keterangan
+    $no_hp = mysqli_real_escape_string($conn, $_POST['no_hp']);
+    $keterangan = mysqli_real_escape_string($conn, $_POST['keterangan']);
     $desa = mysqli_real_escape_string($conn, $_POST['desa']);
     $kecamatan = mysqli_real_escape_string($conn, $_POST['kecamatan']);
 
@@ -22,9 +22,9 @@ if ($action == 'insert') {
     $count = mysqli_stmt_num_rows($stmt_check);
     mysqli_stmt_close($stmt_check);
 
-    // Jika NIK sudah ada, kirimkan pesan kesalahan dan NIK kembali ke index.php
+    // Jika NIK sudah ada, kirimkan pesan kesalahan dan NIK kembali ke data.php
     if ($count > 0) {
-        header("Location: index.php?error=duplicate&nik=" . urlencode($nik));
+        header("Location: data.php?error=duplicate&nik=" . urlencode($nik));
         exit();
     }
 
@@ -35,7 +35,7 @@ if ($action == 'insert') {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    header("Location: index.php?success=inserted");
+    header("Location: data.php?success=inserted");
     exit();
 }
 
@@ -44,8 +44,8 @@ elseif ($action == 'update') {
     $id = mysqli_real_escape_string($conn, $_POST['id']);
     $nik = mysqli_real_escape_string($conn, $_POST['nik']);
     $nama = mysqli_real_escape_string($conn, $_POST['nama']);
-    $no_hp = mysqli_real_escape_string($conn, $_POST['no_hp']); // Menambahkan no_hp
-    $keterangan = mysqli_real_escape_string($conn, $_POST['keterangan']); // Mengganti alamat dengan keterangan
+    $no_hp = mysqli_real_escape_string($conn, $_POST['no_hp']);
+    $keterangan = mysqli_real_escape_string($conn, $_POST['keterangan']);
     $desa = mysqli_real_escape_string($conn, $_POST['desa']);
     $kecamatan = mysqli_real_escape_string($conn, $_POST['kecamatan']);
     
@@ -55,7 +55,7 @@ elseif ($action == 'update') {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     
-    header("Location: index.php?success=updated");
+    header("Location: data.php?success=updated");
     exit();
 }
 
@@ -69,13 +69,13 @@ elseif ($action == 'delete') {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     
-    header("Location: index.php?success=deleted");
+    header("Location: data.php?success=deleted");
     exit();
 }
 
 // Jika aksi tidak dikenali, kembali ke halaman utama
 else {
-    header("Location: index.php");
+    header("Location: data.php");
     exit();
 }
 ?>
