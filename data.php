@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Warga</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -122,31 +122,44 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="action" value="insert">
-                        <div class="form-group">
-                            <label>NIK:</label>
-                            <input type="text" class="form-control" name="nik" required>
+                    <input type="hidden" name="action" value="insert">
+                    <div class="form-group">
+                        <label>NIK:</label>
+                        <input type="text" class="form-control" name="nik" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama:</label>
+                        <input type="text" class="form-control" name="nama" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label>No HP:</label>
+                        <input type="text" class="form-control" name="no_hp" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label>Keterangan:</label>
+                        <textarea class="form-control" name="keterangan" style="text-transform: uppercase;" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Desa:</label>
+                        <input type="text" class="form-control" name="desa" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kecamatan:</label>
+                        <input type="text" class="form-control" name="kecamatan" style="text-transform: uppercase;" required>
+                    </div>
+                    
+                    <!-- Menambahkan pilihan FAUZI atau LARAS dengan radio button -->
+                    <div class="form-group">
+                        <label>TIM :</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tim" value="FAUZI" id="radioFauzi" required>
+                            <label class="form-check-label" for="radioFauzi">FAUZI</label>
                         </div>
-                        <div class="form-group">
-                            <label>Nama:</label>
-                            <input type="text" class="form-control" name="nama" required>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tim" value="LARAS" id="radioLaras" required>
+                            <label class="form-check-label" for="radioLaras">LARAS</label>
                         </div>
-                        <div class="form-group">
-                            <label>No HP:</label>
-                            <input type="text" class="form-control" name="no_hp" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Keterangan:</label>
-                            <textarea class="form-control" name="keterangan" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Desa:</label>
-                            <input type="text" class="form-control" name="desa" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Kecamatan:</label>
-                            <input type="text" class="form-control" name="kecamatan" required>
-                        </div>
+                    </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -174,28 +187,42 @@
                         <input type="hidden" name="id" value="<?php echo $data['id']; ?>">
                         <div class="form-group">
                             <label>NIK:</label>
-                            <input type="text" class="form-control" name="nik" value="<?php echo $data['nik']; ?>" required>
+                            <input type="text" class="form-control" name="nik" style="text-transform: uppercase;" value="<?php echo $data['nik']; ?>" required>
                         </div>
                         <div class="form-group">
                             <label>Nama:</label>
-                            <input type="text" class="form-control" name="nama" value="<?php echo $data['nama']; ?>" required>
+                            <input type="text" class="form-control" name="nama" style="text-transform: uppercase;" value="<?php echo $data['nama']; ?>" required>
                         </div>
                         <div class="form-group">
                             <label>No HP:</label>
-                            <input type="text" class="form-control" name="no_hp" value="<?php echo $data['no_hp']; ?>" required>
+                            <input type="text" class="form-control" name="no_hp" style="text-transform: uppercase;" value="<?php echo $data['no_hp']; ?>" required>
                         </div>
                         <div class="form-group">
                             <label>Keterangan:</label>
-                            <textarea class="form-control" name="keterangan" required><?php echo $data['keterangan']; ?></textarea>
+                            <textarea class="form-control" name="keterangan" style="text-transform: uppercase;" required><?php echo $data['keterangan']; ?></textarea>
                         </div>
                         <div class="form-group">
                             <label>Desa:</label>
-                            <input type="text" class="form-control" name="desa" value="<?php echo $data['desa']; ?>" required>
+                            <input type="text" class="form-control" name="desa" style="text-transform: uppercase;" value="<?php echo $data['desa']; ?>" required>
                         </div>
                         <div class="form-group">
                             <label>Kecamatan:</label>
-                            <input type="text" class="form-control" name="kecamatan" value="<?php echo $data['kecamatan']; ?>" required>
+                            <input type="text" class="form-control" name="kecamatan" style="text-transform: uppercase;" value="<?php echo $data['kecamatan']; ?>" required>
                         </div>
+                        <!-- Menambahkan pilihan FAUZI atau LARAS dengan radio button -->
+                        <div class="form-group">
+        <label>TIM :</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="tim" value="FAUZI" id="radioFauzi" 
+                <?php echo ($data['tim'] === 'FAUZI') ? 'checked' : ''; ?> required>
+            <label class="form-check-label" for="radioFauzi">FAUZI</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="tim" value="LARAS" id="radioLaras" 
+                <?php echo ($data['tim'] === 'LARAS') ? 'checked' : ''; ?> required>
+            <label class="form-check-label" for="radioLaras">LARAS</label>
+        </div>
+    </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

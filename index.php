@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Warga</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -37,58 +37,75 @@
     <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#inputModal">
         Tambah Data
     </button>
-
+    <a class="btn btn-primary mb-4" href='ktp.php'>
+        IMPORT DARI EXEL
+   </a>
     <!-- Menampilkan jumlah total data -->
     <div class="alert alert-info" role="alert">
         Jumlah total data yang terinput: <?php echo $total_data; ?>
     </div>
 
     <!-- Modal Input Data -->
-    <div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form action="proses.php" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="inputModalLabel">Tambah Data Warga</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+<div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="proses.php" method="POST" onsubmit="return validateForm()">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inputModalLabel">Tambah Data Warga</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="action" value="insert">
+                    <div class="form-group">
+                        <label>NIK:</label>
+                        <input type="text" class="form-control" name="nik" style="text-transform: uppercase;" required>
                     </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="action" value="insert">
-                        <div class="form-group">
-                            <label>NIK:</label>
-                            <input type="text" class="form-control" name="nik" required>
+                    <div class="form-group">
+                        <label>Nama:</label>
+                        <input type="text" class="form-control" name="nama" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label>No HP:</label>
+                        <input type="text" class="form-control" name="no_hp" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label>Keterangan:</label>
+                        <textarea class="form-control" name="keterangan" style="text-transform: uppercase;" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Desa:</label>
+                        <input type="text" class="form-control" name="desa" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kecamatan:</label>
+                        <input type="text" class="form-control" name="kecamatan" style="text-transform: uppercase;" required>
+                    </div>
+                    
+                    <!-- Menambahkan pilihan FAUZI atau LARAS dengan radio button -->
+                    <div class="form-group">
+                        <label>TIM :</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tim" value="FAUZI" id="radioFauzi" required>
+                            <label class="form-check-label" for="radioFauzi">FAUZI</label>
                         </div>
-                        <div class="form-group">
-                            <label>Nama:</label>
-                            <input type="text" class="form-control" name="nama" required>
-                        </div>
-                        <div class="form-group">
-                            <label>No HP:</label> <!-- Menambahkan no_hp -->
-                            <input type="text" class="form-control" name="no_hp" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Keterangan:</label> <!-- Mengganti alamat menjadi keterangan -->
-                            <textarea class="form-control" name="keterangan" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Desa:</label>
-                            <input type="text" class="form-control" name="desa" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Kecamatan:</label>
-                            <input type="text" class="form-control" name="kecamatan" required>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tim" value="LARAS" id="radioLaras" required>
+                            <label class="form-check-label" for="radioLaras">LARAS</label>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
 
     <!-- Modal untuk Menampilkan Detail NIK Duplikat -->
     <div class="modal fade" id="duplicateModal" tabindex="-1" role="dialog" aria-labelledby="duplicateModalLabel" aria-hidden="true">
@@ -126,8 +143,8 @@
                                     echo "<tr>
                                         <td>{$row['nik']}</td>
                                         <td>{$row['nama']}</td>
-                                        <td>{$row['no_hp']}</td> <!-- Menampilkan No HP -->
-                                        <td>{$row['keterangan']}</td> <!-- Menampilkan Keterangan -->
+                                        <td>{$row['no_hp']}</td>
+                                        <td>{$row['keterangan']}</td>
                                         <td>{$row['desa']}</td>
                                         <td>{$row['kecamatan']}</td>
                                     </tr>";
@@ -153,6 +170,21 @@
         </div><!-- /.container -->
       </footer>
 </div>
+
+<!-- Script untuk validasi checkbox -->
+<script>
+    function validateForm() {
+        var checkFauzi = document.getElementById('checkFauzi').checked;
+        var checkLaras = document.getElementById('checkLaras').checked;
+
+        if (!checkFauzi && !checkLaras) {
+            alert('Anda harus memilih FAUZI atau LARAS.');
+            return false;
+        }
+
+        return true;
+    }
+</script>
 
 </body>
 </html>

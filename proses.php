@@ -6,12 +6,13 @@ $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ?
 
 // Proses Input Data
 if ($action == 'insert') {
-    $nik = mysqli_real_escape_string($conn, $_POST['nik']);
-    $nama = mysqli_real_escape_string($conn, $_POST['nama']);
-    $no_hp = mysqli_real_escape_string($conn, $_POST['no_hp']); // Menambahkan no_hp
-    $keterangan = mysqli_real_escape_string($conn, $_POST['keterangan']); // Mengganti alamat dengan keterangan
-    $desa = mysqli_real_escape_string($conn, $_POST['desa']);
-    $kecamatan = mysqli_real_escape_string($conn, $_POST['kecamatan']);
+    $nik = strtoupper(mysqli_real_escape_string($conn, $_POST['nik']));
+    $nama = strtoupper(mysqli_real_escape_string($conn, $_POST['nama']));
+    $no_hp = strtoupper(mysqli_real_escape_string($conn, $_POST['no_hp'])); // Menambahkan no_hp
+    $keterangan = strtoupper(mysqli_real_escape_string($conn, $_POST['keterangan'])); // Mengganti alamat dengan keterangan
+    $desa = strtoupper(mysqli_real_escape_string($conn, $_POST['desa']));
+    $kecamatan = strtoupper(mysqli_real_escape_string($conn, $_POST['kecamatan']));
+    $tim = strtoupper(mysqli_real_escape_string($conn, $_POST['tim']));
 
     // Periksa apakah NIK sudah ada di database
     $query_check = "SELECT * FROM data_warga WHERE nik = ?";
@@ -29,9 +30,9 @@ if ($action == 'insert') {
     }
 
     // Jika tidak ada duplikasi, lakukan proses penyimpanan data
-    $query = "INSERT INTO data_warga (nik, nama, no_hp, keterangan, desa, kecamatan) VALUES (?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO data_warga (nik, nama, no_hp, keterangan, desa, kecamatan,tim) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "ssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan);
+    mysqli_stmt_bind_param($stmt, "sssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
@@ -42,16 +43,17 @@ if ($action == 'insert') {
 // Proses Update Data
 elseif ($action == 'update') {
     $id = mysqli_real_escape_string($conn, $_POST['id']);
-    $nik = mysqli_real_escape_string($conn, $_POST['nik']);
-    $nama = mysqli_real_escape_string($conn, $_POST['nama']);
-    $no_hp = mysqli_real_escape_string($conn, $_POST['no_hp']); // Menambahkan no_hp
-    $keterangan = mysqli_real_escape_string($conn, $_POST['keterangan']); // Mengganti alamat dengan keterangan
-    $desa = mysqli_real_escape_string($conn, $_POST['desa']);
-    $kecamatan = mysqli_real_escape_string($conn, $_POST['kecamatan']);
+    $nik = strtoupper(mysqli_real_escape_string($conn, $_POST['nik']));
+    $nama = strtoupper(mysqli_real_escape_string($conn, $_POST['nama']));
+    $no_hp = strtoupper(mysqli_real_escape_string($conn, $_POST['no_hp'])); // Menambahkan no_hp
+    $keterangan = strtoupper(mysqli_real_escape_string($conn, $_POST['keterangan'])); // Mengganti alamat dengan keterangan
+    $desa = strtoupper(mysqli_real_escape_string($conn, $_POST['desa']));
+    $kecamatan = strtoupper(mysqli_real_escape_string($conn, $_POST['kecamatan']));
+    $tim = strtoupper(mysqli_real_escape_string($conn, $_POST['tim']));
     
-    $query = "UPDATE data_warga SET nik = ?, nama = ?, no_hp = ?, keterangan = ?, desa = ?, kecamatan = ? WHERE id = ?";
+    $query = "UPDATE data_warga SET nik = ?, nama = ?, no_hp = ?, keterangan = ?, desa = ?, kecamatan = ?, tim = ? WHERE id = ?";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "ssssssi", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $id);
+    mysqli_stmt_bind_param($stmt, "sssssssi", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim, $id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     
