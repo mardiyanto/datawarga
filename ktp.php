@@ -15,7 +15,7 @@ $duplicate_count = isset($_GET['duplicate_count']) ? (int)$_GET['duplicate_count
 </head>
 <body>
 <div class="container mt-4">
-    <h2>Input Data Warga dari Excel</h2>
+    <h2>Input DATA PEMENANG FAUZI LARAS dari Excel</h2>
     <a href='index.php' class='btn btn-info'>home</a>
     <a href='tema.xlsx' class='btn btn-info '>Download Format</a>
     <?php if ($imported_count > 0): ?>

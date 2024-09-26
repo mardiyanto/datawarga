@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-    <h2 class="mt-4">Data Warga</h2>
+    <h2 class="mt-4">DATA PEMENANG FAUZI LARAS</h2>
 
     <?php
     include 'koneksi.php';
