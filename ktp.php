@@ -1,6 +1,5 @@
 <?php  
 include 'koneksi.php'; // Pastikan untuk mengubah dengan path koneksi database Anda
-
 // Inisialisasi variabel
 $imported_count = isset($_GET['imported_count']) ? (int)$_GET['imported_count'] : 0;
 $duplicate_count = isset($_GET['duplicate_count']) ? (int)$_GET['duplicate_count'] : 0;

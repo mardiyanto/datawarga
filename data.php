@@ -1,20 +1,38 @@
+<?php 
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+} ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Warga</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/jquery-3.5.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap5.min.css">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.7/css/buttons.bootstrap5.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS -->
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+<!-- DataTables Buttons JS -->
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.7/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.7/js/buttons.bootstrap5.min.js"></script>
+<!-- JSZip (required for Excel export) -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Buttons for Excel export -->
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.7/js/buttons.html5.min.js"></script>
 
 </head>
 <body>
 <div class="container">
-    <h2 class="mt-4">Data Warga</h2>
+    <h2 class="mt-4"><a href="register.php">Data Warga</a></h2>
 
     <?php
     include 'koneksi.php';
@@ -55,7 +73,7 @@
     $result_count = mysqli_query($conn, "SELECT COUNT(*) as total FROM data_warga");
     $total_data = mysqli_fetch_assoc($result_count)['total'];
     $total_pages = ceil($total_data / $limit);
-
+    
     // Ambil data warga dengan pagination
     $query = "SELECT * FROM data_warga LIMIT ? OFFSET ?";
     $stmt = mysqli_prepare($conn, $query);
@@ -68,11 +86,12 @@
     <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#inputModal">
         Tambah Data
     </button>
-
+    <a href="logout.php" class="btn btn-danger mb-4" >Logout</a>
     <!-- Tabel Data Warga -->
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>NO</th>
                 <th>NIK</th>
                 <th>Nama</th>
                 <th>No HP</th>
@@ -85,8 +104,10 @@
         </thead>
         <tbody>
             <?php
+            $no = 1;
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>
+                <td>{$no}</td> 
                     <td>{$row['nik']}</td>
                     <td>{$row['nama']}</td>
                     <td>{$row['no_hp']}</td>
@@ -94,11 +115,19 @@
                     <td>{$row['desa']}</td>
                     <td>{$row['kecamatan']}</td>
                      <td>{$row['tim']}</td>
-                    <td>
-                        <a href='?edit_id={$row['id']}' class='btn btn-info btn-sm'>Edit</a>
+                    <td>";
+                    ?>
+                     <?php if ($_SESSION['role'] === 'admin'): 
+                        echo " <a href='?edit_id={$row['id']}' class='btn btn-info btn-sm'>Edit</a>
                         <a href='prosesdata.php?action=delete&id={$row['id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>Hapus</a>
+                        "; ?>
+                    <?php else: 
+                        echo " <a href='?edit_id={$row['id']}' class='btn btn-info btn-sm'>Edit</a> "; ?>  
+                  <?php endif; ?>    
                     </td>
-                </tr>";
+                </tr>
+            <?php
+                 $no++;
             }
             ?>
         </tbody>
@@ -259,11 +288,19 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/dataTables.bootstrap5.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('.table').DataTable();
+    $('.table').DataTable({
+        dom: 'Bfrtip', // Aktifkan tombol di atas tabel
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'Data Warga',
+                text: 'Export ke Excel',
+                className: 'btn btn-success btn-sm'
+            }
+        ]
+    });
 });
 </script>
 <script>
