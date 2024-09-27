@@ -8,6 +8,9 @@
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap5.min.css">
+
 </head>
 <body>
 <div class="container">
@@ -44,7 +47,7 @@
     }
 
     // Pagination
-    $limit = 50; // Batas jumlah data per halaman
+    $limit = 100; // Batas jumlah data per halaman
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman saat ini
     $offset = ($page - 1) * $limit;
 
@@ -76,6 +79,7 @@
                 <th>Keterangan</th>
                 <th>Desa</th>
                 <th>Kecamatan</th>
+                <th>Tim</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -89,6 +93,7 @@
                     <td>{$row['keterangan']}</td>
                     <td>{$row['desa']}</td>
                     <td>{$row['kecamatan']}</td>
+                     <td>{$row['tim']}</td>
                     <td>
                         <a href='?edit_id={$row['id']}' class='btn btn-info btn-sm'>Edit</a>
                         <a href='prosesdata.php?action=delete&id={$row['id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>Hapus</a>
@@ -254,7 +259,13 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/dataTables.bootstrap5.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.table').DataTable();
+});
+</script>
 <script>
     $(document).ready(function () {
         <?php if (isset($data)): ?>
