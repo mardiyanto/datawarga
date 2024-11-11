@@ -2,17 +2,23 @@
 include 'koneksi.php';
 
 // Query untuk menghitung jumlah setiap kecamatan
-$query = "SELECT kecamatan, COUNT(*) AS jumlah FROM data_warga GROUP BY kecamatan";
-$result = mysqli_query($conn, $query);
+$queryKecamatan = "SELECT kecamatan, COUNT(*) AS jumlah FROM data_warga GROUP BY kecamatan";
+$resultKecamatan = mysqli_query($conn, $queryKecamatan);
 
 $kecamatan = [];
 $jumlah = [];
 
-// Mengambil data dari hasil query
-while ($row = mysqli_fetch_assoc($result)) {
+// Mengambil data dari hasil query kecamatan
+while ($row = mysqli_fetch_assoc($resultKecamatan)) {
     $kecamatan[] = $row['kecamatan'];
     $jumlah[] = $row['jumlah'];
 }
+
+// Query untuk menghitung total jumlah data warga
+$queryTotal = "SELECT COUNT(*) AS total_data FROM data_warga";
+$resultTotal = mysqli_query($conn, $queryTotal);
+$rowTotal = mysqli_fetch_assoc($resultTotal);
+$totalData = $rowTotal['total_data'];
 
 // Tutup koneksi
 mysqli_close($conn);
@@ -31,44 +37,14 @@ mysqli_close($conn);
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">FAUZI LARAS</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="index.php">HOME</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="grafik_batang.php">TIM</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="grafik.php">KECAMATAN</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-      
+
+<div class="container mt-5">
+    <h2 class="text-center">Grafik Jumlah Warga per Kecamatan</h2>
+    
+    <!-- Menampilkan jumlah total data -->
+    <div class="mb-3 text-center">
+        <h4>Total Data Warga: <?php echo $totalData; ?></h4>
     </div>
-  </div>
-</nav>
-<div class="container mt-12">
-    <h2 class="text-center">TIM PEMENANG FAUZI LARAS</h2>
     
     <!-- Dropdown untuk memilih kecamatan -->
     <div class="mb-3 text-center">
@@ -80,6 +56,9 @@ mysqli_close($conn);
             <?php endforeach; ?>
         </select>
     </div>
+    
+    <!-- Menampilkan jumlah warga berdasarkan kecamatan yang dipilih -->
+    <div id="jumlahWargaKecamatan" class="mb-3 text-center"></div>
     
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -134,10 +113,27 @@ function updateChart(labels, data, title = 'Jumlah Warga per Kecamatan') {
 // Menampilkan grafik awal
 updateChart(kecamatan, jumlah);
 
+// Fungsi untuk menampilkan jumlah warga per kecamatan
+function displayJumlahWargaKecamatan(kecamatan) {
+    $.ajax({
+        url: 'get_jumlah_warga_kecamatan.php',
+        type: 'POST',
+        data: { kecamatan: kecamatan },
+        dataType: 'json',
+        success: function(response) {
+            // Menampilkan jumlah warga per kecamatan
+            $('#jumlahWargaKecamatan').html('<h4>Jumlah Warga di Kecamatan ' + kecamatan + ': ' + response.jumlah + '</h4>');
+        }
+    });
+}
+
 // Mengambil data desa berdasarkan kecamatan yang dipilih
 $('#kecamatanDropdown').change(function() {
     const selectedKecamatan = $(this).val();
     if (selectedKecamatan) {
+        // Tampilkan jumlah warga untuk kecamatan yang dipilih
+        displayJumlahWargaKecamatan(selectedKecamatan);
+        
         $.ajax({
             url: 'get_data_desa.php',
             type: 'POST',
@@ -152,6 +148,7 @@ $('#kecamatanDropdown').change(function() {
     } else {
         // Jika tidak ada kecamatan yang dipilih, tampilkan grafik awal
         updateChart(kecamatan, jumlah, 'Jumlah Warga per Kecamatan');
+        $('#jumlahWargaKecamatan').html('');
     }
 });
 </script>

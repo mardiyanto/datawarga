@@ -244,9 +244,12 @@ if (!isset($_SESSION['username'])) {
                         <label>Kecamatan:</label>
                         <input type="text" class="form-control" name="kecamatan" style="text-transform: uppercase;" required>
                     </div>
-                    
-                    <!-- Menambahkan pilihan FAUZI atau LARAS dengan radio button -->
                     <div class="form-group">
+                        <label>TIM :</label>
+                        <input type="text" class="form-control" name="tim" style="text-transform: uppercase;" required>
+                    </div>
+                    <!-- Menambahkan pilihan FAUZI atau LARAS dengan radio button -->
+                    <!-- <div class="form-group">
                         <label>TIM :</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="tim" value="FAUZI" id="radioFauzi" required>
@@ -256,7 +259,7 @@ if (!isset($_SESSION['username'])) {
                             <input class="form-check-input" type="radio" name="tim" value="LARAS" id="radioLaras" required>
                             <label class="form-check-label" for="radioLaras">LARAS</label>
                         </div>
-                    </div>
+                    </div> -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -308,6 +311,10 @@ if (!isset($_SESSION['username'])) {
                         </div>
                         <!-- Menambahkan pilihan FAUZI atau LARAS dengan radio button -->
                         <div class="form-group">
+                        <label>TIM :</label>
+                        <input type="text" class="form-control" name="tim" value="<?php echo $data['tim']; ?>" style="text-transform: uppercase;" required>
+                    </div>
+                        <!-- <div class="form-group">
         <label>TIM :</label>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="tim" value="FAUZI" id="radioFauzi" 
@@ -319,7 +326,7 @@ if (!isset($_SESSION['username'])) {
                 <?php echo ($data['tim'] === 'LARAS') ? 'checked' : ''; ?> required>
             <label class="form-check-label" for="radioLaras">LARAS</label>
         </div>
-    </div>
+    </div> -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
