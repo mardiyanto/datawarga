@@ -4,35 +4,92 @@ if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 } ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Warga</title>
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.7/css/buttons.bootstrap5.min.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap5.min.css">
+    <style>
+.pagination-container {
+    max-height: 400px; /* Sesuaikan tinggi sesuai kebutuhan */
+    overflow-y: auto;
+    margin-right: 20px;
+}
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- DataTables JS -->
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
-<!-- DataTables Buttons JS -->
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.7/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.7/js/buttons.bootstrap5.min.js"></script>
-<!-- JSZip (required for Excel export) -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<!-- Buttons for Excel export -->
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.7/js/buttons.html5.min.js"></script>
+.pagination .page-item {
+    margin: 2px 0;
+}
 
+.pagination .page-item.active .page-link {
+    background-color: magenta;
+    color: white;
+}
+
+.pagination .page-link {
+    display: block;
+    padding: 8px 12px;
+    text-align: center;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: black;
+    text-decoration: none;
+}
+
+.pagination .page-link:hover {
+    background-color: #ddd;
+}
+
+.table-container {
+    flex-grow: 1;
+}
+</style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">FAUZI LARAS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="data.php">HOME</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="data_kecamatan.php">KECAMATAN</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</nav>
 <div class="container">
-    <h2 class="mt-4"><a href="register.php">Data Warga</a></h2>
+    
+    <h2 class="mt-4">Data Warga</h2>
 
     <?php
     include 'koneksi.php';
@@ -65,7 +122,7 @@ if (!isset($_SESSION['username'])) {
     }
 
     // Pagination
-    $limit = 100; // Batas jumlah data per halaman
+    $limit = 1000; // Batas jumlah data per halaman
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman saat ini
     $offset = ($page - 1) * $limit;
 
@@ -85,57 +142,14 @@ if (!isset($_SESSION['username'])) {
     <!-- Tombol untuk memunculkan Modal Input -->
     <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#inputModal">
         Tambah Data
-    </button>
-    <a href="logout.php" class="btn btn-danger mb-4" >Logout</a>
-    <!-- Tabel Data Warga -->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>NO</th>
-                <th>NIK</th>
-                <th>Nama</th>
-                <th>No HP</th>
-                <th>Keterangan</th>
-                <th>Desa</th>
-                <th>Kecamatan</th>
-                <th>Tim</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $no = 1;
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>
-                <td>{$no}</td> 
-                    <td>{$row['nik']}</td>
-                    <td>{$row['nama']}</td>
-                    <td>{$row['no_hp']}</td>
-                    <td>{$row['keterangan']}</td>
-                    <td>{$row['desa']}</td>
-                    <td>{$row['kecamatan']}</td>
-                     <td>{$row['tim']}</td>
-                    <td>";
-                    ?>
-                     <?php if ($_SESSION['role'] === 'admin'): 
-                        echo " <a href='?edit_id={$row['id']}' class='btn btn-info btn-sm'>Edit</a>
-                        <a href='prosesdata.php?action=delete&id={$row['id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>Hapus</a>
-                        "; ?>
-                    <?php else: 
-                        echo " <a href='?edit_id={$row['id']}' class='btn btn-info btn-sm'>Edit</a> "; ?>  
-                  <?php endif; ?>    
-                    </td>
-                </tr>
-            <?php
-                 $no++;
-            }
-            ?>
-        </tbody>
-    </table>
+    </button> <a href="data_kecamatan.php" class="btn btn-primary mb-4" >EXPOR EXEL</a>
+ <a href="logout.php" class="btn btn-danger mb-4" >Logout</a>
 
-    <!-- Pagination -->
-    <nav>
-        <ul class="pagination justify-content-center">
+    <!-- Tabel Data Warga -->
+<div class="d-flex">
+    <!-- Pagination di sebelah kiri -->
+    <nav class="pagination-container">
+        <ul class="pagination flex-column">
             <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                 <li class="page-item <?= ($i === $page) ? 'active' : '' ?>">
                     <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
@@ -143,6 +157,55 @@ if (!isset($_SESSION['username'])) {
             <?php endfor; ?>
         </ul>
     </nav>
+
+    <!-- Tabel di sebelah kanan -->
+    <div class="container p-12 border rounded">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th>NIK</th>
+                    <th>Nama</th>
+                    <th>No HP</th>
+                    <th>Keterangan</th>
+                    <th>Desa</th>
+                    <th>Kecamatan</th>
+                    <th>Tim</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $no = 1;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>
+                    <td>{$no}</td> 
+                        <td>{$row['nik']}</td>
+                        <td>{$row['nama']}</td>
+                        <td>{$row['no_hp']}</td>
+                        <td>{$row['keterangan']}</td>
+                        <td>{$row['desa']}</td>
+                        <td>{$row['kecamatan']}</td>
+                        <td>{$row['tim']}</td>
+                        <td>";
+                        ?>
+                        <?php if ($_SESSION['role'] === 'admin'): 
+                            echo " <a href='?edit_id={$row['id']}' class='btn btn-info btn-sm'>Edit</a>
+                            <a href='prosesdata.php?action=delete&id={$row['id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>Hapus</a>
+                            "; ?>
+                        <?php else: 
+                            echo " <a href='?edit_id={$row['id']}' class='btn btn-info btn-sm'>Edit</a> "; ?>  
+                      <?php endif; ?>    
+                        </td>
+                    </tr>
+                <?php
+                     $no++;
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
     <!-- Modal Input Data -->
     <div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputModalLabel" aria-hidden="true">
@@ -288,19 +351,11 @@ if (!isset($_SESSION['username'])) {
         </div>
     </div>
 </div>
+<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/dataTables.bootstrap5.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('.table').DataTable({
-        dom: 'Bfrtip', // Aktifkan tombol di atas tabel
-        buttons: [
-            {
-                extend: 'excelHtml5',
-                title: 'Data Warga',
-                text: 'Export ke Excel',
-                className: 'btn btn-success btn-sm'
-            }
-        ]
-    });
+    $('.table').DataTable();
 });
 </script>
 <script>

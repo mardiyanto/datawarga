@@ -6,6 +6,7 @@ $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ?
 
 // Proses Input Data
 if ($action == 'insert') {
+    // Mengambil input dan mengubah menjadi huruf kapital
     $nik = strtoupper(mysqli_real_escape_string($conn, $_POST['nik']));
     $nama = strtoupper(mysqli_real_escape_string($conn, $_POST['nama']));
     $no_hp = strtoupper(mysqli_real_escape_string($conn, $_POST['no_hp'])); // Menambahkan no_hp
@@ -30,7 +31,7 @@ if ($action == 'insert') {
     }
 
     // Jika tidak ada duplikasi, lakukan proses penyimpanan data
-    $query = "INSERT INTO data_warga (nik, nama, no_hp, keterangan, desa, kecamatan,tim) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO data_warga (nik, nama, no_hp, keterangan, desa, kecamatan, tim) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "sssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim);
     mysqli_stmt_execute($stmt);
@@ -42,6 +43,7 @@ if ($action == 'insert') {
 
 // Proses Update Data
 elseif ($action == 'update') {
+    // Mengambil input dan mengubah menjadi huruf kapital
     $id = mysqli_real_escape_string($conn, $_POST['id']);
     $nik = strtoupper(mysqli_real_escape_string($conn, $_POST['nik']));
     $nama = strtoupper(mysqli_real_escape_string($conn, $_POST['nama']));
@@ -60,6 +62,7 @@ elseif ($action == 'update') {
     header("Location: index.php?success=updated");
     exit();
 }
+
 
 // Proses Hapus Data
 elseif ($action == 'delete') {

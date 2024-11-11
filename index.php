@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="container">
+    
     <h2 class="mt-4">DATA PEMENANG FAUZI LARAS</h2>
 
     <?php
@@ -39,6 +40,9 @@
     </button>
     <a class="btn btn-primary mb-4" href='ktp.php'>
         IMPORT DARI EXEL
+   </a>
+     <a class="btn btn-primary mb-4" href='grafik_batang.php'>
+        Grafik Data Pemenang
    </a>
     <!-- Menampilkan jumlah total data -->
     <div class="alert alert-info" role="alert">
@@ -185,5 +189,6 @@
         return true;
     }
 </script>
+
 </body>
 </html>
