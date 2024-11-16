@@ -39,6 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Jika NIK sudah ada, increment duplicate counter
             if ($count > 0) {
                 $duplicate_count++;
+                $query = "INSERT INTO warga (nik, nama, no_hp, keterangan, desa, kecamatan, tim) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $stmt = mysqli_prepare($conn, $query);
+                mysqli_stmt_bind_param($stmt, "sssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_close($stmt);
                 continue; // NIK sudah ada, skip ke baris berikutnya
             }
 

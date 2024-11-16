@@ -37,7 +37,8 @@ mysqli_close($conn);
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-
+<?php
+include 'menuuser.php'; ?>
 <div class="container mt-5">
     <h2 class="text-center">Grafik Jumlah Warga per Kecamatan</h2>
     
