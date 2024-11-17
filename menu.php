@@ -13,6 +13,9 @@
           <a class="nav-link" href="data_kecamatan.php">KECAMATAN</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="data_kordinator.php">KORDINATOR</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="data_duplikat.php">DUPLIKAT</a>
         </li>
  

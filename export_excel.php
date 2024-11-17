@@ -19,8 +19,9 @@ if (isset($_GET['kecamatan'])) {
     $sheet->setCellValue('C1', 'Nama');
     $sheet->setCellValue('D1', 'Keterangan');
     $sheet->setCellValue('E1', 'No HP');
-    $sheet->setCellValue('F1', 'Desa');
-    $sheet->setCellValue('G1', 'Tim');
+    $sheet->setCellValue('F1', 'Kordinator');
+    $sheet->setCellValue('G1', 'Desa');
+    $sheet->setCellValue('H1', 'Tim');
 
     // Populate data
     $rowIndex = 2;
@@ -30,8 +31,9 @@ if (isset($_GET['kecamatan'])) {
         $sheet->setCellValue('C' . $rowIndex, $row['nama']);
         $sheet->setCellValue('D' . $rowIndex, $row['keterangan']);
         $sheet->setCellValue('E' . $rowIndex, $row['no_hp']);
-        $sheet->setCellValue('F' . $rowIndex, $row['desa']);
-        $sheet->setCellValue('G' . $rowIndex, $row['tim']);
+        $sheet->setCellValue('F' . $rowIndex, $row['kordinator']);
+        $sheet->setCellValue('G' . $rowIndex, $row['desa']);
+        $sheet->setCellValue('H' . $rowIndex, $row['tim']);
         $rowIndex++;
     }
 

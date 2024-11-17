@@ -18,6 +18,7 @@ if (isset($_GET['kecamatan'])) {
                     <th>Nama</th>
                     <th>Keterangan</th>
                     <th>No HP</th>
+                    <th>Kordinator</th>
                     <th>Desa</th>
                     <th>Tim</th>
                 </tr>';
@@ -29,6 +30,7 @@ if (isset($_GET['kecamatan'])) {
                     <td>' . $row['nama'] . '</td>
                     <td>' . $row['keterangan'] . '</td>
                     <td>' . $row['no_hp'] . '</td>
+                    <td>' . $row['kordinator'] . '</td>
                     <td>' . $row['desa'] . '</td>
                     <td>' . $row['tim'] . '</td>
                   </tr>';

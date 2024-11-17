@@ -86,9 +86,20 @@
                         <label>Kecamatan:</label>
                         <input type="text" class="form-control" name="kecamatan" style="text-transform: uppercase;" required>
                     </div>
-                    
-                    <!-- Menambahkan pilihan FAUZI atau LARAS dengan radio button -->
                     <div class="form-group">
+                        <label>TIM :</label>
+                        <input type="text" class="form-control" name="tim" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label>KORDINATOR :</label>
+                        <input type="text" class="form-control" name="kordinator" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label>WA KORDINATOR :</label>
+                        <input type="text" class="form-control" name="wa_kor" style="text-transform: uppercase;" required>
+                    </div>
+                    <!-- Menambahkan pilihan FAUZI atau LARAS dengan radio button -->
+                    <!-- <div class="form-group">
                         <label>TIM :</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="tim" value="FAUZI" id="radioFauzi" required>
@@ -98,7 +109,7 @@
                             <input class="form-check-input" type="radio" name="tim" value="LARAS" id="radioLaras" required>
                             <label class="form-check-label" for="radioLaras">LARAS</label>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
                 <div class="modal-footer">

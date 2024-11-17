@@ -13,7 +13,8 @@ if ($action == 'insert') {
     $desa = strtoupper(mysqli_real_escape_string($conn, $_POST['desa']));
     $kecamatan = strtoupper(mysqli_real_escape_string($conn, $_POST['kecamatan']));
     $tim = strtoupper(mysqli_real_escape_string($conn, $_POST['tim']));
-
+    $kordinator = strtoupper(mysqli_real_escape_string($conn, $_POST['kordinator']));
+    $wa_kor = strtoupper(mysqli_real_escape_string($conn, $_POST['wa_kor']));
     // Periksa apakah NIK sudah ada di database
     $query_check = "SELECT * FROM data_warga WHERE nik = ?";
     $stmt_check = mysqli_prepare($conn, $query_check);
@@ -26,13 +27,18 @@ if ($action == 'insert') {
     // Jika NIK sudah ada, kirimkan pesan kesalahan dan NIK kembali ke data.php
     if ($count > 0) {
         header("Location: data.php?error=duplicate&nik=" . urlencode($nik));
+        $query = "INSERT INTO warga (nik, nama, no_hp, keterangan, desa, kecamatan, tim,kordinator,wa_kor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "sssssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim, $kordinator, $wa_kor);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
         exit();
     }
 
     // Jika tidak ada duplikasi, lakukan proses penyimpanan data
-    $query = "INSERT INTO data_warga (nik, nama, no_hp, keterangan, desa, kecamatan,tim) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO warga (nik, nama, no_hp, keterangan, desa, kecamatan, tim,kordinator,wa_kor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim);
+    mysqli_stmt_bind_param($stmt, "sssssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim, $kordinator, $wa_kor);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
@@ -50,10 +56,12 @@ elseif ($action == 'update') {
     $desa = strtoupper(mysqli_real_escape_string($conn, $_POST['desa']));
     $kecamatan = strtoupper(mysqli_real_escape_string($conn, $_POST['kecamatan']));
     $tim = strtoupper(mysqli_real_escape_string($conn, $_POST['tim']));
+    $kordinator = strtoupper(mysqli_real_escape_string($conn, $_POST['kordinator']));
+    $wa_kor = strtoupper(mysqli_real_escape_string($conn, $_POST['wa_kor']));
     
-    $query = "UPDATE data_warga SET nik = ?, nama = ?, no_hp = ?, keterangan = ?, desa = ?, kecamatan = ?, tim = ? WHERE id = ?";
+    $query = "UPDATE data_warga SET nik = ?, nama = ?, no_hp = ?, keterangan = ?, desa = ?, kecamatan = ?, tim = ?, kordinator = ?, wa_kor = ? WHERE id = ?";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sssssssi", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim, $id);
+    mysqli_stmt_bind_param($stmt, "sssssssssi", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim, $kordinator, $wa_kor, $id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     

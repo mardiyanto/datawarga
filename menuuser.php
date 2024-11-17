@@ -13,6 +13,9 @@
           <a class="nav-link" href="grafik_batang.php">TIM</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="grafik_kordinator.php">KORDINATOR</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="grafik.php">KECAMATAN</a>
         </li>
         <li class="nav-item">

@@ -221,6 +221,14 @@ include 'menu.php'; ?>
                         <label>TIM :</label>
                         <input type="text" class="form-control" name="tim" style="text-transform: uppercase;" required>
                     </div>
+                    <div class="form-group">
+                        <label>KORDINATOR :</label>
+                        <input type="text" class="form-control" name="kordinator" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label>WA KORDINATOR :</label>
+                        <input type="text" class="form-control" name="wa_kor" style="text-transform: uppercase;" required>
+                    </div>
                     <!-- Menambahkan pilihan FAUZI atau LARAS dengan radio button -->
                     <!-- <div class="form-group">
                         <label>TIM :</label>
