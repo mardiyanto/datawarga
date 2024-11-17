@@ -26,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $desa = strtoupper(mysqli_real_escape_string($conn, $columns[4]));
             $kecamatan = strtoupper(mysqli_real_escape_string($conn, $columns[5]));
             $tim = strtoupper(mysqli_real_escape_string($conn, $columns[6]));
+            $kordinator = strtoupper(mysqli_real_escape_string($conn, $columns[7]));
+            $wa_kor = strtoupper(mysqli_real_escape_string($conn, $columns[8]));
 
             // Periksa apakah NIK sudah ada di database
             $query_check = "SELECT * FROM data_warga WHERE nik = ?";
@@ -39,18 +41,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Jika NIK sudah ada, increment duplicate counter
             if ($count > 0) {
                 $duplicate_count++;
-                $query = "INSERT INTO warga (nik, nama, no_hp, keterangan, desa, kecamatan, tim) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $query = "INSERT INTO warga (nik, nama, no_hp, keterangan, desa, kecamatan, tim,kordinator,wa_kor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = mysqli_prepare($conn, $query);
-                mysqli_stmt_bind_param($stmt, "sssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim);
+                mysqli_stmt_bind_param($stmt, "sssssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim, $kordinator, $wa_kor);
                 mysqli_stmt_execute($stmt);
                 mysqli_stmt_close($stmt);
                 continue; // NIK sudah ada, skip ke baris berikutnya
             }
 
             // Jika tidak ada duplikasi, simpan data ke database
-            $query = "INSERT INTO data_warga (nik, nama, no_hp, keterangan, desa, kecamatan, tim) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO data_warga (nik, nama, no_hp, keterangan, desa, kecamatan, tim,kordinator,wa_kor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($conn, $query);
-            mysqli_stmt_bind_param($stmt, "sssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim);
+            mysqli_stmt_bind_param($stmt, "sssssssss", $nik, $nama, $no_hp, $keterangan, $desa, $kecamatan, $tim,$kordinator, $wa_kor);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
 

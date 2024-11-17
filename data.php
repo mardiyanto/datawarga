@@ -140,6 +140,8 @@ include 'menu.php'; ?>
                     <th>Desa</th>
                     <th>Kecamatan</th>
                     <th>Tim</th>
+                    <th>kordinator</th>
+                    <th>wa kordinator</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -156,6 +158,8 @@ include 'menu.php'; ?>
                         <td>{$row['desa']}</td>
                         <td>{$row['kecamatan']}</td>
                         <td>{$row['tim']}</td>
+                        <td>{$row['kordinator']}</td>
+                        <td>{$row['wa_kor']}</td>
                         <td>";
                         ?>
                         <?php if ($_SESSION['role'] === 'admin'): 
